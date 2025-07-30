@@ -1,15 +1,19 @@
 local Players = game:GetService("Players")
-local Chat = game:GetService("Chat")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local StarterGui = game:GetService("StarterGui")
 
 local player = Players.LocalPlayer
+local message = _G.Txt
+
+local chatEvent = ReplicatedStorage:WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest")
+chatEvent:FireServer(message, "All")
+
 local character = player.Character or player.CharacterAdded:Wait()
 local head = character:WaitForChild("Head")
-
-Chat:Chat(head, _G.Txt, Enum.ChatColor.Blue)
+game:GetService("Chat"):Chat(head, message, Enum.ChatColor.Blue)
 
 StarterGui:SetCore("ChatMakeSystemMessage", {
-    Text = player.Name .. ": " .. _G.Txt;
+    Text = player.Name .. ": " .. message;
     Color = Color3.fromRGB(0, 162, 255);
     Font = Enum.Font.SourceSansBold;
     FontSize = Enum.FontSize.Size18;
